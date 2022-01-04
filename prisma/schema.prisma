@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../database/afisha.db"
+}
+
+model Afisha {
+  id          Int              @id @default(autoincrement())
+  title       String
+  description String
+  duration    String
+  image_path  String
+  rate        Float
+  actors      ActorsOnAfisha[]
+  genres      String
+}
+
+model Actor {
+  id         Int              @id @default(autoincrement())
+  name       String
+  image_path String
+  afisha     ActorsOnAfisha[]
+}
+
+model ActorsOnAfisha {
+  afisha    Afisha @relation(fields: [afishaId], references: [id])
+  afishaId  Int
+  actors    Actor  @relation(fields: [actorId], references: [id])
+  actorId   Int
+  character String
+
+  @@id([afishaId, actorId])
+}
