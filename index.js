@@ -8,6 +8,38 @@ const port = 8080
 app.use(express.json());
 app.use(cors());
 
+const client = require('prom-client');
+const register = new client.Registry()
+
+client.collectDefaultMetrics({register});
+
+const httpRequestCount = new client.Counter({
+    name: 'nodejs_http_total_count',
+    help: 'Http requests count',
+    labelNames: ['method', 'status'],
+});
+
+register.registerMetric(httpRequestCount);
+
+app.get('/metrics', async (req, res) => {
+    metrics = await register.metrics()
+    res.set('Content-Type', register.contentType);
+    res.send(metrics);
+});
+
+app.use((req, res, next)=> {
+    console.log('Middle working');
+    httpRequestCount.inc({
+        method: req.method,
+        status: req.statusCode,
+    });
+    next();
+});
+
+app.use('/', (req, res)=> {
+    res.status(200).send("Main page");
+})
+
 app.get('/afisha', async (req, res) => {
     const afisha = await prisma.afisha.findMany({
         include: {
