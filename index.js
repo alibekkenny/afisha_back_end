@@ -22,7 +22,7 @@ app.post('/afisha', async (req, res) => {
     const afisha = await prisma.afisha.create({
         data: newAfisha,
     });
-    res.status(200).send(afisha);
+    res.status(201).send(afisha);
 });
 
 app.get('/afisha/:id', async (req, res) => {
@@ -51,7 +51,7 @@ app.put('/afisha/:id', async (req, res) => {
         },
         data: afisha,
     });
-    res.status(200).send(updatedAfisha);
+    res.status(201).send(updatedAfisha);
 });
 
 app.delete('/afisha/:id', async (req, res) => {
@@ -72,7 +72,7 @@ app.get('/actors/', async (req, res) => {
 app.post('/actors/', async (req, res) => {
     const newActors = req.body;
     const actors = await prisma.actor.create({ data: newActors });
-    res.status(200).send(actors);
+    res.status(201).send(actors);
 });
 
 app.get('/actors/:id', async (req, res) => {
@@ -94,40 +94,18 @@ app.put('/actors/:id', async (req, res) => {
         },
         data: actor,
     });
-    res.status(200).send(updated);
+    res.status(201).send(updated);
 });
 
-app.get('/actorsafisha', async (req, res) => {
+app.get('/actors_afisha', async (req, res) => {
     const actorsAfisha = await prisma.actorsOnAfisha.findMany();
     res.status(200).send(actorsAfisha);
 })
 
-app.post('/actorsafisha', async (req, res) => {
+app.post('/actors_afisha', async (req, res) => {
     const actorsAfisha = req.body;
     const newActorsAfisha = await prisma.actorsOnAfisha.create({ data: actorsAfisha });
-    res.status(200).send(newActorsAfisha);
-})
-
-app.put('/actorsafisha/:id', async (req, res) => {
-    const id = Number(req.params.id);
-    const actorsAfisha = req.body;
-    const updated = await prisma.actorsOnAfisha.update({
-        where: {
-            id: id,
-        },
-        data: actorsAfisha,
-    });
-    res.status(200).send(updated);
-})
-
-app.delete('/actorsafisha/:id', async (req, res) => {
-    const id = Number(req.params.id);
-    const deleted = await prisma.actorsOnAfisha.delete({
-        where: {
-            id: id,
-        },
-    });
-    res.status(200).send(deleted);
+    res.status(201).send(newActorsAfisha);
 })
 
 
