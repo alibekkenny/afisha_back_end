@@ -14,15 +14,16 @@ pipeline {
             }
         }
 
-        stage('Testing') {
-            steps {
-                sh 'npm test'
-            }
-        }
 
         stage('Run Project') {
             steps {
                 sh 'nohup npm start &'
+            }
+        }
+        
+        stage('Testing') {
+            steps {
+                sh 'npm test'
             }
         }
     }
