@@ -1,34 +1,40 @@
 ---
-- name: Deploy Node.js Project
-  hosts: skillcheck
+- name: Setup webserver using ansible
+  hosts: webserver
   become: yes
   become_user: ec2-user
 
   tasks:
-    - name: Update apt package cache
+    - name: the same as sudo apt update
       apt:
         update_cache: yes
       when: ansible_pkg_mgr == 'apt'
 
-    - name: Install Node.js and npm
+    - name: the same as sudo install npm aand node
       apt:
         name: nodejs
         state: present
       when: ansible_pkg_mgr == 'apt'
 
-    - name: Clone Git repository
+    - name: the same as git clone
       git:
-        repo: "https://github.com/alibekkenny/heroku_test.git"
-        dest: "/home/ec2-user/heroku_test"
+        repo: "https://github.com/alibekkenny/afisha_back_end.git"
+        dest: "/home/ec2-user/afisha_back_end"
         version: main
+        force: yes
 
-    - name: Install project dependencies
+    - name: the same as npm install
       npm:
-        path: "/home/ec2-user/heroku_test"
+        path: "/home/ec2-user/afisha_back_end"
         state: present
 
-    - name: Start the Node.js application
-      command: npm start
+    - name: the same as npx prisma generate
+      command: npx prisma generate
       args:
-        chdir: "/home/ec2-user/heroku_test"
+        chdir: "/home/ec2-user/afisha_back_end"
+
+    - name: the same as npm start
+      command: nohup npm start &
+      args:
+        chdir: "/home/ec2-user/afisha_back_end"
 

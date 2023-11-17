@@ -36,9 +36,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.use('/', (req, res)=> {
-//     res.status(200).send("Main page");
-// })
 
 app.get('/afisha', async (req, res) => {
     const afisha = await prisma.afisha.findMany({
