@@ -1,0 +1,34 @@
+---
+- name: Deploy Node.js Project
+  hosts: skillcheck
+  become: yes
+  become_user: ec2-user
+
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+      when: ansible_pkg_mgr == 'apt'
+
+    - name: Install Node.js and npm
+      apt:
+        name: nodejs
+        state: present
+      when: ansible_pkg_mgr == 'apt'
+
+    - name: Clone Git repository
+      git:
+        repo: "https://github.com/alibekkenny/heroku_test.git"
+        dest: "/home/ec2-user/heroku_test"
+        version: main
+
+    - name: Install project dependencies
+      npm:
+        path: "/home/ec2-user/heroku_test"
+        state: present
+
+    - name: Start the Node.js application
+      command: npm start
+      args:
+        chdir: "/home/ec2-user/heroku_test"
+

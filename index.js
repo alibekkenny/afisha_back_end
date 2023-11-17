@@ -11,7 +11,7 @@ app.use(cors());
 const client = require('prom-client');
 const register = new client.Registry()
 
-client.collectDefaultMetrics({register});
+client.collectDefaultMetrics({ register });
 
 const httpRequestCount = new client.Counter({
     name: 'nodejs_http_total_count',
@@ -27,18 +27,18 @@ app.get('/metrics', async (req, res) => {
     res.send(metrics);
 });
 
-app.use((req, res, next)=> {
-    console.log('Middle working');
+app.use((req, res, next) => {
+    console.log('Middle working', res.statusCode);
     httpRequestCount.inc({
         method: req.method,
-        status: req.statusCode,
+        status: res.statusCode,
     });
     next();
 });
 
-app.use('/', (req, res)=> {
-    res.status(200).send("Main page");
-})
+// app.use('/', (req, res)=> {
+//     res.status(200).send("Main page");
+// })
 
 app.get('/afisha', async (req, res) => {
     const afisha = await prisma.afisha.findMany({
@@ -46,7 +46,7 @@ app.get('/afisha', async (req, res) => {
             actors: true,
         },
     });
-    res.status(200).send(afisha);
+    res.status(201).send(afisha);
 })
 
 app.post('/afisha', async (req, res) => {
@@ -54,7 +54,7 @@ app.post('/afisha', async (req, res) => {
     const afisha = await prisma.afisha.create({
         data: newAfisha,
     });
-    res.status(201).send(afisha);
+    res.status(200).send(afisha);
 });
 
 app.get('/afisha/:id', async (req, res) => {
@@ -98,7 +98,7 @@ app.delete('/afisha/:id', async (req, res) => {
 
 app.get('/actors/', async (req, res) => {
     const actors = await prisma.actor.findMany();
-    res.status(200).send(actors);
+    res.status(201).send(actors);
 });
 
 app.post('/actors/', async (req, res) => {
