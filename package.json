@@ -10,7 +10,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@prisma/client": "^3.4.1",
+        "@prisma/client": "^4.0.1",
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "prom-client": "^15.0.0",
