@@ -1,5 +1,5 @@
 const request = require("supertest")
-const baseURL = "http://localhost:8080"
+const baseURL = "http://localhost:4000"
 
 describe("GET /actors", () => {
     let newActor = {
