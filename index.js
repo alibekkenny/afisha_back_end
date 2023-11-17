@@ -46,7 +46,7 @@ app.get('/afisha', async (req, res) => {
             actors: true,
         },
     });
-    res.status(201).send(afisha);
+    res.status(200).send(afisha);
 })
 
 app.post('/afisha', async (req, res) => {
@@ -54,7 +54,7 @@ app.post('/afisha', async (req, res) => {
     const afisha = await prisma.afisha.create({
         data: newAfisha,
     });
-    res.status(200).send(afisha);
+    res.status(201).send(afisha);
 });
 
 app.get('/afisha/:id', async (req, res) => {
@@ -98,7 +98,7 @@ app.delete('/afisha/:id', async (req, res) => {
 
 app.get('/actors/', async (req, res) => {
     const actors = await prisma.actor.findMany();
-    res.status(201).send(actors);
+    res.status(200).send(actors);
 });
 
 app.post('/actors/', async (req, res) => {
