@@ -53,7 +53,7 @@ app.post('/afisha', async (req, res) => {
     });
     res.status(201).send(afisha);
 });
-
+//
 app.get('/afisha/:id', async (req, res) => {
     const id = Number(req.params.id);
     const afishaById = await prisma.afisha.findUnique({
